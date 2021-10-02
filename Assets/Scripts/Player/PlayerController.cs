@@ -28,17 +28,22 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
 
-        SpriteFlipping();
-    }
-
-    void SpriteFlipping()
-    {
-        if (moveInput.x == 0) return;
-
-        playerSprite.localScale = new Vector2(rb.velocity.x > 0 ? 1 : -1, playerSprite.localScale.y);
+        SpriteFlip();
     }
 
     private void FixedUpdate()
+    {
+        Movement();
+    }
+    
+    private void SpriteFlip()
+    {
+        if (moveInput.x == 0) return;
+
+        playerSprite.localScale = new Vector2(moveInput.x > 0 ? 1 : -1, playerSprite.localScale.y);
+    }
+
+    private void Movement()
     {
         rb.velocity = moveInput;
     }
