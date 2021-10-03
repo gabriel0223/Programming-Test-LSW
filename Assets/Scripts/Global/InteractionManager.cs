@@ -36,7 +36,15 @@ public class InteractionManager : MonoBehaviour
         
     }
 
-    public void StartDialogue(SO_Dialogue dialogue)
+    public void StartDialogue(NPC npc, SO_Dialogue dialogue)
+    {
+        var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
+
+        newDialogueController.dialogue = dialogue;
+        newDialogueController.npcInteracting = npc;
+    }
+    
+    public void StartInteraction(SO_Dialogue dialogue)
     {
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 

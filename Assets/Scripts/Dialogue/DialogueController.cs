@@ -10,6 +10,7 @@ public class DialogueController : MonoBehaviour
 {
     
     [HideInInspector] public SO_Dialogue dialogue;
+    [HideInInspector] public NPC npcInteracting;
     [Header("REFERENCES")]
     [SerializeField] private RawImage portrait;
     [SerializeField] private TextMeshProUGUI textDisplay;
@@ -21,7 +22,7 @@ public class DialogueController : MonoBehaviour
 
     [Space(10)]
     
-    public String[] sentences;
+    private String[] sentences;
     private int index;
     public float typeSpeed = 0.02f;
     public int lettersBetweenVoice;
@@ -33,9 +34,51 @@ public class DialogueController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.LockInput(true);
     }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (npcInteracting != null) 
+            npcInteracting.SetInteractionSign(false);
+        
+        List<String>sentencesList = new List<string>();
+
+        foreach (var sentence in dialogue.sentences)
+        {
+            sentencesList.Add(sentence.text);
+        }
+
+        sentences = sentencesList.ToArray();
+        
+        UpdateDialogueFormat();
+
+        textDisplay.text = "";
+        typing = StartCoroutine(Type());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            NextSentence();
+        }
+        
+        if (textDisplay.text == sentences[index])
+        {
+            dialogueCompleteIcon.SetActive(true);
+        }
+        else
+        {
+            dialogueCompleteIcon.SetActive(false);
+        }
+    }
 
     private void OnDestroy()
     {
+        if (npcInteracting != null) 
+            npcInteracting.UpdateInteractionSign();
+        
         player.LockInput(false);
     }
 
@@ -68,43 +111,6 @@ public class DialogueController : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(typeSpeed);
-        }
-    }
-
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        List<String>sentencesList = new List<string>();
-
-        foreach (var sentence in dialogue.sentences)
-        {
-            sentencesList.Add(sentence.text);
-        }
-
-        sentences = sentencesList.ToArray();
-        
-        UpdateDialogueFormat();
-
-        textDisplay.text = "";
-        typing = StartCoroutine(Type());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown("Interact"))
-        {
-            NextSentence();
-        }
-        
-        if (textDisplay.text == sentences[index])
-        {
-            dialogueCompleteIcon.SetActive(true);
-        }
-        else
-        {
-            dialogueCompleteIcon.SetActive(false);
         }
     }
 
@@ -152,8 +158,9 @@ public class DialogueController : MonoBehaviour
 
     private void SpeakerGUISetActive(bool active)
     {
-        portrait.gameObject.SetActive(active);
-        speakerName.gameObject.SetActive(active);
+        portrait.transform.parent.gameObject.SetActive(active);
+        speakerName.transform.parent.gameObject.SetActive(active);
+        speakerText.gameObject.SetActive(active);
         
         noSpeakerText.gameObject.SetActive(!active); //text formated to no speakers
 
@@ -162,12 +169,13 @@ public class DialogueController : MonoBehaviour
 
     IEnumerator TakePortraitPhoto()
     {
+        //get portrait camera of the current speaker
         var speakerPortraitCam = FindObjectsOfType<Camera>(true)
             .First(cam => cam.targetTexture.Equals(dialogue.sentences[index].speaker.portrait)).gameObject;
             
         speakerPortraitCam.SetActive(true);
 
-        yield return new WaitForEndOfFrame();
+        yield return null;
         
         speakerPortraitCam.SetActive(false);
     }

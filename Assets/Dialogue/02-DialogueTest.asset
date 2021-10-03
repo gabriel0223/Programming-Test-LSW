@@ -10,16 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d9342756aa342e46a4c64c014ca142a, type: 3}
-  m_Name: DialogueTest
+  m_Name: 02-DialogueTest
   m_EditorClassIdentifier: 
   sentences:
-  - speaker: {fileID: 11400000, guid: 4f54c1cacd8efd94bacb66b649f73240, type: 2}
-    text: Hey man, sup?
   - speaker: {fileID: 11400000, guid: 92628e6d9fafc0e4a80bd41542c4d2c7, type: 2}
-    text: Who the hell are you?
+    text: Does it means that my whole life was a lie?
   - speaker: {fileID: 11400000, guid: 4f54c1cacd8efd94bacb66b649f73240, type: 2}
-    text: It doesn't matter. We're just testing the new dialogue system
-  - speaker: {fileID: 11400000, guid: 92628e6d9fafc0e4a80bd41542c4d2c7, type: 2}
-    text: WE'RE WHAT?
-  - speaker: {fileID: 11400000, guid: 4f54c1cacd8efd94bacb66b649f73240, type: 2}
-    text: Chill, man.
+    text: Pretty much.
