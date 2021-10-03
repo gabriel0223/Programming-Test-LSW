@@ -9,7 +9,13 @@ public class PlayerController : MonoBehaviour
     private Transform playerSprite;
     
     [SerializeField] private float speed;
+    [SerializeField] private float interactionRange;
+    [Tooltip("The offset in the origin of the interaction raycast")]
+    [SerializeField] private Vector2 interactionOriginOffset;
+    
     private Vector2 moveInput;
+    [HideInInspector] public int directionFacing = 1;
+    private bool inputLocked;
 
     private void Awake()
     {
@@ -26,13 +32,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (inputLocked) return;
+        
+        //get and normalize input
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * speed;
 
         SpriteFlip();
+        Interaction();
     }
 
     private void FixedUpdate()
     {
+        if (inputLocked) return;
+        
         Movement();
     }
     
@@ -40,11 +52,39 @@ public class PlayerController : MonoBehaviour
     {
         if (moveInput.x == 0) return;
 
+        //flip player sprite according to input
         playerSprite.localScale = new Vector2(moveInput.x > 0 ? 1 : -1, playerSprite.localScale.y);
+        directionFacing = (int)playerSprite.localScale.x;
     }
 
     private void Movement()
     {
         rb.velocity = moveInput;
+    }
+
+    private void Interaction()
+    {
+        if (Input.GetButtonDown("Interact"))
+        {
+            var hitInfo = Physics2D.Raycast(transform.position + (Vector3)interactionOriginOffset,
+                Vector3.right * directionFacing, interactionRange);
+
+            var interactable = hitInfo.collider.GetComponent<IInteractable>();
+            
+            if (interactable == null) return;
+            
+            interactable.Interact();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position + (Vector3)interactionOriginOffset, Vector3.right * directionFacing * interactionRange);
+    }
+
+    public void LockInput(bool locked)
+    {
+        inputLocked = locked;
     }
 }
