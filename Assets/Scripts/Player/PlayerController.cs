@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             var hitInfo = Physics2D.Raycast(transform.position + (Vector3)interactionOriginOffset,
                 Vector3.right * directionFacing, interactionRange);
 
-            var interactable = hitInfo.collider.GetComponent<IInteractable>();
+            var interactable = hitInfo.collider.GetComponent<IInteractive>();
             
             if (interactable == null) return;
             

@@ -1,15 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ItemInfoWindow : MonoBehaviour
 {
     private Rect rectTransform;
+    private InventoryController inventoryController;
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private TextMeshProUGUI itemDescriptionText;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>().rect;
+        inventoryController = UIManager.instance.inventoryController;
+    }
+
+    private void OnEnable()
+    {
+        FollowMouse();
     }
 
     // Start is called before the first frame update
@@ -21,7 +31,33 @@ public class ItemInfoWindow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var offset = new Vector3(rectTransform.width, rectTransform.height) / 2;
-        transform.position = Input.mousePosition + offset;
+        FollowMouse();
+    }
+    
+    private void FollowMouse()
+    {
+        Vector3 offset;
+        
+        if (!inventoryController.isCarryingItem)
+        {
+            offset = new Vector3(rectTransform.width, -rectTransform.height * 1.5f) / 1.8f;
+        }
+        else
+        {
+            offset = new Vector3(rectTransform.width, -rectTransform.height * 1.5f) / 1.5f;
+        }
+
+        //keep window from leaving the screen
+        Vector3 newPos = Input.mousePosition + offset;
+        newPos.x = Mathf.Clamp(newPos.x, 0 + rectTransform.width / 2, Screen.width - rectTransform.width / 2);
+        newPos.y = Mathf.Clamp(newPos.y, 0, Screen.height);
+
+        transform.position = newPos;
+    }
+
+    public void UpdateItemInfo(string itemName, string itemDescription)
+    {
+        itemNameText.SetText(itemName);
+        itemDescriptionText.SetText(itemDescription);
     }
 }
