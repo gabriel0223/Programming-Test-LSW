@@ -15,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Ignore Portrait
-  - 
+  - Player
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Tilemaps
+    uniqueID: 4080301795
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 8742360948463345205}
   - component: {fileID: 8742360948463345207}
   - component: {fileID: 8742360948463345204}
-  - component: {fileID: 943589670350093641}
+  - component: {fileID: 8833257832778943915}
   m_Layer: 5
   m_Name: Textbox
   m_TagString: Untagged
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &943589670350093641
+--- !u!114 &8833257832778943915
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -543,26 +543,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8742360948463345202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7fbd707ccd4f4f4eb8bfe5043f31dfb, type: 3}
+  m_Script: {fileID: 11500000, guid: e345a749bfb68004f94e9db57eb1bbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  easeCurve:
+  growEaseCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1.6081783
-      outSlope: 1.6081783
+      inSlope: 1.1972635
+      outSlope: 1.1972635
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6265491
-      value: 1.0076027
-      inSlope: 0.79391015
-      outSlope: 0.79391015
+      time: 0.875182
+      value: 1.0478234
+      inSlope: 0.40705913
+      outSlope: 0.40705913
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -570,8 +570,41 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -0.020357942
-      outSlope: -0.020357942
+      inSlope: -0.3831452
+      outSlope: -0.3831452
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shrinkEaseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.42722753
+      outSlope: -0.42722753
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.12726185
+      value: -0.054369763
+      inSlope: 0.39044476
+      outSlope: 0.39044476
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.208117
+      outSlope: 1.208117
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -626,17 +659,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 0}
+  npcInteracting: {fileID: 0}
   portrait: {fileID: 702827450}
   textDisplay: {fileID: 8742360949529771785}
   speakerName: {fileID: 8742360949370392888}
   dialogueCompleteIcon: {fileID: 8742360947889071572}
   noSpeakerText: {fileID: 2170566220032068943}
   speakerText: {fileID: 8742360949529771785}
-  sentences:
-  - First Sentence
-  - Second Sentence
   typeSpeed: 0.03
-  lettersBetweenVoice: 4
+  lettersBetweenVoice: 3
 --- !u!82 &6326817391578782193
 AudioSource:
   m_ObjectHideFlags: 0

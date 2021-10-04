@@ -44,10 +44,11 @@ public class InteractionManager : MonoBehaviour
         newDialogueController.npcInteracting = npc;
     }
     
-    public void StartInteraction(SO_Dialogue dialogue)
+    public void StartInteraction(Interactive interactiveObject,SO_Dialogue dialogue)
     {
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 
         newDialogueController.dialogue = dialogue;
+        newDialogueController.objectInteracting = interactiveObject;
     }
 }

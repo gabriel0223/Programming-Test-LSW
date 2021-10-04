@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MyBox;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
@@ -11,6 +13,7 @@ public class DialogueController : MonoBehaviour
     
     [HideInInspector] public SO_Dialogue dialogue;
     [HideInInspector] public NPC npcInteracting;
+    [HideInInspector] public Interactive objectInteracting;
     [Header("REFERENCES")]
     [SerializeField] private RawImage portrait;
     [SerializeField] private TextMeshProUGUI textDisplay;
@@ -19,12 +22,15 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI noSpeakerText, speakerText;
     private Transform portraitCamera;
     private PlayerController player;
+    private GrowerWindow textbox;
 
     [Space(10)]
     
+    [Header("SETTINGS")]
     private String[] sentences;
     private int index;
-    public float typeSpeed = 0.02f;
+    [SerializeField] private float typeSpeed = 0.02f;
+    [Tooltip("How many letters will be printed between the voice sounds")]
     public int lettersBetweenVoice;
     private Coroutine typing;
     
@@ -33,6 +39,7 @@ public class DialogueController : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.LockInput(true);
+        textbox = GetComponentInChildren<GrowerWindow>();
     }
     
     // Start is called before the first frame update
@@ -63,15 +70,6 @@ public class DialogueController : MonoBehaviour
         {
             NextSentence();
         }
-        
-        if (textDisplay.text == sentences[index])
-        {
-            dialogueCompleteIcon.SetActive(true);
-        }
-        else
-        {
-            dialogueCompleteIcon.SetActive(false);
-        }
     }
 
     private void OnDestroy()
@@ -85,59 +83,72 @@ public class DialogueController : MonoBehaviour
     IEnumerator Type()
     {
         int count = 0;
+        dialogueCompleteIcon.SetActive(false);
         
         foreach (char letter in sentences[index])
         {
             textDisplay.text += letter;
             count++;
 
-            if (Char.IsLetterOrDigit(letter))
+            if (char.IsLetterOrDigit(letter))
             {
-                if (count >= lettersBetweenVoice)
+                if (count >= lettersBetweenVoice) //if enough letters were printed, play voice sound
                 {
-                    AudioManager.instance.Play(sentences[index]);
+                    var speaker = dialogue.sentences[index].speaker;
+                    string speakerVoice = speaker == null || speaker.voiceAudio.Equals("") ? "DefaultVoice" : speaker.voiceAudio;
+
+                    AudioManager.instance.Play(speakerVoice);
                     count = 0;
                 }
             }
             else
             {
-                if (!letter.Equals(' ') && !letter.Equals('\''))
+                if (letter == sentences[index][sentences[index].Length - 1]) //if it's the last letter, no need to make a pause
+                    break;
+                
+                //PAUSE TYPING
+                switch (letter)
                 {
-                    yield return new WaitForSeconds(typeSpeed * 10);
-                }
-                else if (letter.Equals(','))
-                {
-                    yield return new WaitForSeconds(typeSpeed * 5);
+                    case '.':
+                    case '!':
+                        yield return new WaitForSeconds(typeSpeed * 10);
+                        break;
+                    case ',':
+                        yield return new WaitForSeconds(typeSpeed * 2.5f);
+                        break;
                 }
             }
             yield return new WaitForSeconds(typeSpeed);
         }
+        
+        dialogueCompleteIcon.SetActive(true);
     }
 
-    public void NextSentence()
+    private void NextSentence()
     {
-        if (textDisplay.text == sentences[index]) //se o texto estiver 100% digitado na tela
+        if (textDisplay.text == sentences[index]) //if the text is 100% printed on screen
         {
-            if (index < sentences.Length - 1) //ir para a próxima linha de diálogo
+            if (index < sentences.Length - 1) //and if there are still sentences to read
             {
-                index++;
+                index++; //go to the next sentence
                 UpdateDialogueFormat();
                 textDisplay.text = "";
                 typing = StartCoroutine(Type());
             }
             else
             {
-                Destroy(gameObject);
+                CloseDialogueBox();
             }
         }
         else
         {
             textDisplay.text = sentences[index];
+            dialogueCompleteIcon.SetActive(true);
             StopCoroutine(typing);
         }
     }
 
-    public void UpdateDialogueFormat()
+    private void UpdateDialogueFormat()
     {
         if (dialogue.sentences[index].speaker == null) //if there's no speaker
         {
@@ -149,9 +160,7 @@ public class DialogueController : MonoBehaviour
             
             //set names, portraits and voices
             speakerName.SetText(dialogue.sentences[index].speaker.name);
-
             StartCoroutine(TakePortraitPhoto());
-            
             portrait.texture = dialogue.sentences[index].speaker.portrait;
         }
     }
@@ -178,5 +187,16 @@ public class DialogueController : MonoBehaviour
         yield return null;
         
         speakerPortraitCam.SetActive(false);
+    }
+
+    private void CloseDialogueBox()
+    {
+        if (objectInteracting != null) //if it's the case, call interactive object event before closing
+        {
+            if (objectInteracting.triggerEvent) 
+                objectInteracting.interactionEvent.Invoke();
+        }
+                
+        textbox.Shrink(() => Destroy(gameObject)); //close dialogue box
     }
 }

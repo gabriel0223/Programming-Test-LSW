@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue")]
 public class SO_Dialogue : ScriptableObject

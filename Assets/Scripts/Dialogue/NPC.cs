@@ -6,7 +6,6 @@ using UnityEngine;
 public class NPC : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject newInteractionSign;
-    private IInteractable _interactableImplementation;
     private Transform npcSprite;
     private PlayerController player;
     

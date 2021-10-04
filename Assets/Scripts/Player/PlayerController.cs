@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Transform playerSprite;
+    private PlayerFootsteps playerFootsteps;
     
     [SerializeField] private float speed;
     [SerializeField] private float interactionRange;
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerFootsteps = GetComponentInChildren<PlayerFootsteps>();
         playerSprite = GetComponentInChildren<Animator>().transform;
     }
 
@@ -85,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
     public void LockInput(bool locked)
     {
+        if (locked) rb.velocity = Vector2.zero;
         inputLocked = locked;
     }
 }
