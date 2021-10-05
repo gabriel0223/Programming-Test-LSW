@@ -1,15 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [DefaultExecutionOrder(-1)]
 public class UIManager : MonoBehaviour
 {
+    public enum UIStates
+    {
+        Idle, Talking, Equipping, Shopping 
+    }
+    
     public PlayerMenu playerMenu;
+    public ShopController shopController;
     public InventoryController inventoryController;
+    public GameObject inventoryWindow;
     public GameObject itemInfoWindow;
+    public GameObject playerMoneyWindow;
     public static UIManager instance;
+
+    [HideInInspector] public bool interactingWithUI;
+    public UIStates uiState;
+
 
     private void Awake()
     {

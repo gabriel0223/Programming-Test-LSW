@@ -36,10 +36,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         
     }
-    
-    public void UpdateItemIcon()
+
+    private void UpdateItemIcon()
     {
-        if (item == null) return;
+        if (item == null)
+        {
+            slotIcon.enabled = false;
+            return;
+        }
 
         slotIcon.enabled = true;
         slotIcon.sprite = item.equipmentSprite;
@@ -90,6 +94,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         item = null;
         full = false;
+        UpdateItemIcon();
+        UIManager.instance.itemInfoWindow.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -102,7 +108,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void HoverSlot()
     {
         slotIcon.GetComponent<HoverGrowerButton>().Grow();
-        itemInfoWindow.GetComponent<ItemInfoWindow>().UpdateItemInfo(item.name, item.description);
+        itemInfoWindow.GetComponent<ItemInfoWindow>().UpdateItemInfo(item.name, item.description, item.sellingPrice);
         itemInfoWindow.SetActive(true);
     }
 

@@ -33,11 +33,14 @@ public class InteractionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartDialogue(NPC npc, SO_Dialogue dialogue)
     {
+        if (UIManager.instance.interactingWithUI) return;
+        UIManager.instance.interactingWithUI = true;
+        
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 
         newDialogueController.dialogue = dialogue;
@@ -46,6 +49,9 @@ public class InteractionManager : MonoBehaviour
     
     public void StartInteraction(Interactive interactiveObject,SO_Dialogue dialogue)
     {
+        if (UIManager.instance.interactingWithUI) return;
+        UIManager.instance.interactingWithUI = true;
+        
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 
         newDialogueController.dialogue = dialogue;

@@ -37,14 +37,16 @@ public class DialogueController : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        player.LockInput(true);
-        textbox = GetComponentInChildren<GrowerWindow>();
+        
     }
     
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player.LockInput(true);
+        textbox = GetComponentInChildren<GrowerWindow>();
+
         if (npcInteracting != null) 
             npcInteracting.SetInteractionSign(false);
         
@@ -78,6 +80,7 @@ public class DialogueController : MonoBehaviour
             npcInteracting.UpdateInteractionSign();
         
         player.LockInput(false);
+        UIManager.instance.interactingWithUI = false;
     }
 
     IEnumerator Type()
@@ -109,9 +112,10 @@ public class DialogueController : MonoBehaviour
                 //PAUSE TYPING
                 switch (letter)
                 {
+                    case '?':
                     case '.':
                     case '!':
-                        yield return new WaitForSeconds(typeSpeed * 10);
+                        yield return new WaitForSeconds(typeSpeed * 7.5f);
                         break;
                     case ',':
                         yield return new WaitForSeconds(typeSpeed * 2.5f);

@@ -10,6 +10,7 @@ public class ItemInfoWindow : MonoBehaviour
     private InventoryController inventoryController;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
+    [SerializeField] private TextMeshProUGUI itemPriceText;
 
     private void Awake()
     {
@@ -55,9 +56,10 @@ public class ItemInfoWindow : MonoBehaviour
         transform.position = newPos;
     }
 
-    public void UpdateItemInfo(string itemName, string itemDescription)
+    public void UpdateItemInfo(string itemName, string itemDescription, int itemPrice)
     {
         itemNameText.SetText(itemName);
         itemDescriptionText.SetText(itemDescription);
+        itemPriceText.SetText(itemPrice.ToString());
     }
 }

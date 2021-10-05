@@ -1,7 +1,7 @@
 using UnityEngine;
      
 
-    public class DebugStuff : MonoBehaviour
+    public class DebugOnBuild : MonoBehaviour
     {
         string myLog = "*begin log";
         string filename = "";

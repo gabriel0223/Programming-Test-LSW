@@ -11,7 +11,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void Awake()
     {
-        playerMenu = FindObjectOfType<UIManager>().playerMenu;
+        playerMenu = UIManager.instance.playerMenu;
         inventoryController = UIManager.instance.inventoryController;
     }
 

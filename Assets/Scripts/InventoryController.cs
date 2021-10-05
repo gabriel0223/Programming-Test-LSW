@@ -7,8 +7,8 @@ using UnityEngine;
 public class InventoryController : MonoBehaviour
 {
     public Transform itemSelector;
-    [HideInInspector] public SO_Equipment currentSelectedItem;
     private GameObject itemInfoWindow;
+    [HideInInspector] public SO_Equipment currentSelectedItem;
     [SerializeField] private GameObject inventorySlots;
     
     [HideInInspector] public bool isCarryingItem;
@@ -43,6 +43,13 @@ public class InventoryController : MonoBehaviour
 
     public void SelectSlot(InventorySlot slot)
     {
+        if (UIManager.instance.uiState == UIManager.UIStates.Shopping)
+        {
+            UIManager.instance.shopController.SellItem(slot.item);
+            slot.RemoveItem();
+            return;
+        }
+        
         if (!isCarryingItem) //if it's not selecting the second slot
         {
             currentSelectedItem = slot.item;
@@ -100,5 +107,10 @@ public class InventoryController : MonoBehaviour
         }
         
         AudioManager.instance.Play("DeselectItem");
+    }
+
+    public InventorySlot GetFirstEmptySlot()
+    {
+        return inventorySlots.GetComponentsInChildren<InventorySlot>().First(s => !s.full);
     }
 }

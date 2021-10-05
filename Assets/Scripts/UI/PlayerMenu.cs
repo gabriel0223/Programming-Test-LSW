@@ -28,6 +28,9 @@ public class PlayerMenu : MonoBehaviour
 
     public void OpenPlayerMenu()
     {
+        if (UIManager.instance.interactingWithUI) return;
+        
+        UIManager.instance.interactingWithUI = true;
         gameObject.SetActive(true);
         AudioManager.instance.Play("Pop01");
         playerControlller.LockInput(true);
@@ -39,6 +42,11 @@ public class PlayerMenu : MonoBehaviour
         
         AudioManager.instance.Play("ClickBack");
         playerControlller.LockInput(false);
+        UIManager.instance.interactingWithUI = false;
+        
+        if (UIManager.instance.itemInfoWindow.activeSelf)
+            UIManager.instance.itemInfoWindow.SetActive(false);
+            
         gameObject.SetActive(false);
     }
 

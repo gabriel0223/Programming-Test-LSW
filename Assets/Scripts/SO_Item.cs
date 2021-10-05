@@ -5,7 +5,8 @@ using UnityEngine;
 public class SO_Item : ScriptableObject
 {
     public string name;
-    public int price;
+    public int purchasePrice;
+    public int sellingPrice;
     [TextArea(5, 5)] public string description;
     
     // Start is called before the first frame update

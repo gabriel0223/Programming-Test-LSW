@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Hood02
   m_EditorClassIdentifier: 
   name: Green Hood
-  price: 200
+  purchasePrice: 200
+  sellingPrice: 100
   description: 'A cool green hood. '
   equipmentType: 0
   equipmentSprite: {fileID: 21300000, guid: f7e7bed775fff8347b9e53c67e20875f, type: 3}
