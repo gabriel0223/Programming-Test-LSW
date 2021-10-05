@@ -6,10 +6,13 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     private PlayerMenu playerMenu;
+    private InventoryController inventoryController;
+    [SerializeField] public List<SO_Equipment> inventory = new List<SO_Equipment>();
 
     private void Awake()
     {
         playerMenu = FindObjectOfType<UIManager>().playerMenu;
+        inventoryController = UIManager.instance.inventoryController;
     }
 
     // Start is called before the first frame update
@@ -24,9 +27,13 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetButtonDown("Cancel"))
         {
             if (playerMenu.gameObject.activeSelf)
+            {
                 playerMenu.ClosePlayerMenu();
+            }
             else
+            {
                 playerMenu.OpenPlayerMenu();
+            }
         }
     }
 }

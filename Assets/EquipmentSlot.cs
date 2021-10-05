@@ -2,20 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class EquipmentSlot : InventorySlot
 {
+    [SerializeField] private SpriteRenderer spriteToChange;
     public SO_Equipment.EquipmentType slotType;
+    
     private void Awake()
     {
-        slotIcon = transform.GetChild(0).GetComponent<Image>();
-        itemInfoWindow = UIManager.instance.itemInfoWindow;
+        base.Awake();
     }
 
     private void OnEnable()
     {
-        // UpdateItemIcon();
+        
     }
 
     // Start is called before the first frame update
@@ -28,5 +30,15 @@ public class EquipmentSlot : InventorySlot
     void Update()
     {
         
+    }
+    
+    public void EquipItem()
+    {
+        spriteToChange.sprite = item.equipmentSprite;
+    }
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        inventoryController.SelectSlot(this);
     }
 }

@@ -8,10 +8,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     [HideInInspector] public GameObject itemInfoWindow;
     [HideInInspector] public Image slotIcon;
-    private InventoryController inventoryController;
+    [HideInInspector] public bool full;
+    protected InventoryController inventoryController;
     public SO_Equipment item;
     
-    private void Awake()
+    protected void Awake()
     {
         slotIcon = transform.GetChild(0).GetComponent<Image>();
         itemInfoWindow = UIManager.instance.itemInfoWindow;
@@ -33,7 +34,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     // Update is called once per frame
     void Update()
     {
-        //UpdateItemIcon();
+        
     }
     
     public void UpdateItemIcon()
@@ -76,6 +77,21 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         slotIcon.GetComponent<RectTransform>().localPosition = iconPosition;
     }
 
+    public void AddItem(SO_Equipment item, bool hoverAnimation)
+    {
+        this.item = item;
+        full = true;
+        UpdateItemIcon();
+        
+        if (hoverAnimation) HoverSlot();
+    }
+
+    public void RemoveItem()
+    {
+        item = null;
+        full = false;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item == null) return;
@@ -98,7 +114,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         slotIcon.GetComponent<HoverGrowerButton>().Shrink();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         inventoryController.SelectSlot(this);
     }

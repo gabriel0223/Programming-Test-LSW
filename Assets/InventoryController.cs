@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -8,6 +9,8 @@ public class InventoryController : MonoBehaviour
     public Transform itemSelector;
     [HideInInspector] public SO_Equipment currentSelectedItem;
     private GameObject itemInfoWindow;
+    [SerializeField] private GameObject inventorySlots;
+    
     [HideInInspector] public bool isCarryingItem;
     private Vector3 itemPositionOffset = new Vector2(30, -30);
 
@@ -19,7 +22,8 @@ public class InventoryController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        var playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>().inventory;
+        InitializeInventoryUI(playerInventory);
     }
 
     // Update is called once per frame
@@ -28,13 +32,22 @@ public class InventoryController : MonoBehaviour
         itemSelector.position = Input.mousePosition;
     }
 
+    public void InitializeInventoryUI(List<SO_Equipment> inventory)
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            var slot = inventorySlots.transform.GetChild(i).GetComponent<InventorySlot>();
+            slot.AddItem(inventory[i], false);
+        }
+    }
+
     public void SelectSlot(InventorySlot slot)
     {
-        if (!isCarryingItem)
+        if (!isCarryingItem) //if it's not selecting the second slot
         {
             currentSelectedItem = slot.item;
             
-            slot.item = null;
+            slot.RemoveItem();
             itemInfoWindow.SetActive(false);
             var iconCopy = Instantiate(slot.slotIcon, itemSelector); //copy icon to be carried on item selector
             slot.slotIcon.enabled = false; //disable icon on the slot
@@ -42,21 +55,27 @@ public class InventoryController : MonoBehaviour
             iconCopy.GetComponent<RectTransform>().localPosition += itemPositionOffset;
             
             isCarryingItem = true;
+            AudioManager.instance.Play("SelectItem");
         }
         else
         {
             AddItemToSlot(slot, currentSelectedItem);
         }
     }
+    
+    public void SelectSlot(EquipmentSlot slot)
+    {
+        if (!isCarryingItem || slot.item.equipmentType != currentSelectedItem.equipmentType) return;
+        AddItemToSlot(slot, slot.item);
+        slot.EquipItem();
+    }
 
     private void AddItemToSlot(InventorySlot slot, SO_Equipment item)
     {
         if (slot.item == null) //if there's no item in the slot
         {
-            slot.item = item;
-            slot.UpdateItemIcon();
-            slot.HoverSlot();
-            
+            slot.AddItem(item, true);
+
             Destroy(itemSelector.GetChild(0).gameObject); //destroy icon copy in the item selector
             isCarryingItem = false;
         }
@@ -75,11 +94,11 @@ public class InventoryController : MonoBehaviour
             iconCopy.GetComponent<RectTransform>().localPosition += itemPositionOffset;
             
             //PUT OLD ITEM IN THE SECOND SLOT
-            slot.item = currentSelectedItem;
-            slot.UpdateItemIcon();
-            slot.HoverSlot();
+            slot.AddItem(currentSelectedItem, true);
 
             currentSelectedItem = secondSlotItem;
         }
+        
+        AudioManager.instance.Play("DeselectItem");
     }
 }

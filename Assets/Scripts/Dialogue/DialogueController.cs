@@ -179,9 +179,11 @@ public class DialogueController : MonoBehaviour
     IEnumerator TakePortraitPhoto()
     {
         //get portrait camera of the current speaker
-        var speakerPortraitCam = FindObjectsOfType<Camera>(true)
-            .First(cam => cam.targetTexture.Equals(dialogue.sentences[index].speaker.portrait)).gameObject;
-            
+        var portraitCams = FindObjectsOfType<Camera>(true).Where(cam => cam.gameObject.CompareTag("PortraitCamera"));
+
+        var speakerPortraitCam =
+            portraitCams.First(cam => cam.targetTexture.Equals(dialogue.sentences[index].speaker.portrait)).gameObject;
+        
         speakerPortraitCam.SetActive(true);
 
         yield return null;
