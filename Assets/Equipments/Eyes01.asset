@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Eyes01
   m_EditorClassIdentifier: 
   name: Green Eyes
-  price: 100
+  purchasePrice: 150
+  sellingPrice: 75
   description: Aside from the fact that these lenses hurt my eyes, I kinda like it.
   equipmentType: 1
   equipmentSprite: {fileID: 21300000, guid: 518ab34707033904cb1d99dbfcc9f4bb, type: 3}

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Top02
   m_EditorClassIdentifier: 
   name: Blue Coat
-  price: 100
-  description: Cool blue coat.
+  purchasePrice: 200
+  sellingPrice: 100
+  description: I feel like a rogue pacifist wearing this.
   equipmentType: 2
   equipmentSprite: {fileID: 21300000, guid: 124013dbba7f284489ac16156c930131, type: 3}

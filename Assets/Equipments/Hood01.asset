@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Hood01
   m_EditorClassIdentifier: 
   name: Orange Hood
-  price: 100
-  description: An orange hood, just like Phill's.
+  purchasePrice: 100
+  sellingPrice: 50
+  description: A dull orange hood, just like Phill's.
   equipmentType: 0
   equipmentSprite: {fileID: 21300000, guid: 468244f274f38f64b85773c7888444b6, type: 3}

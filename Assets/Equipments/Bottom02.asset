@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9012ebbb36ce6a942b71cd40196f7213, type: 3}
   m_Name: Bottom02
   m_EditorClassIdentifier: 
-  name: Blue Pants
-  price: 100
-  description: Makes me feel like a warrior.
+  name: Warrior pants
+  purchasePrice: 300
+  sellingPrice: 150
+  description: So furious.
   equipmentType: 3
   equipmentSprite: {fileID: 21300000, guid: b1babcb6ce4ee78478abc5076a6d1b8d, type: 3}

@@ -8,6 +8,7 @@ public class ItemInfoWindow : MonoBehaviour
 {
     private Rect rectTransform;
     private InventoryController inventoryController;
+    [Header("REFERENCES")]
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
     [SerializeField] private TextMeshProUGUI itemPriceText;

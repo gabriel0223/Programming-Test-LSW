@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
         Idle, Talking, Equipping, Shopping 
     }
     
+    [Header("REFERENCES")]
     public PlayerMenu playerMenu;
     public ShopController shopController;
     public InventoryController inventoryController;
@@ -21,7 +22,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     [HideInInspector] public bool interactingWithUI;
-    public UIStates uiState;
+    [HideInInspector] public UIStates uiState;
 
 
     private void Awake()

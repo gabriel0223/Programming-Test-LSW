@@ -40,6 +40,7 @@ public class InteractionManager : MonoBehaviour
     {
         if (UIManager.instance.interactingWithUI) return;
         UIManager.instance.interactingWithUI = true;
+        UIManager.instance.uiState = UIManager.UIStates.Talking;
         
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 
@@ -51,6 +52,7 @@ public class InteractionManager : MonoBehaviour
     {
         if (UIManager.instance.interactingWithUI) return;
         UIManager.instance.interactingWithUI = true;
+        UIManager.instance.uiState = UIManager.UIStates.Talking;
         
         var newDialogueController = Instantiate(dialogueControllerPrefab, canvas.transform).GetComponent<DialogueController>();
 

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Eyes02
   m_EditorClassIdentifier: 
   name: Red Eyes
-  price: 100
+  purchasePrice: 200
+  sellingPrice: 100
   description: Scary red eyes.
   equipmentType: 1
   equipmentSprite: {fileID: 21300000, guid: 8e016bdb4d00e70429de56b91135940c, type: 3}
