@@ -94,6 +94,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         item = null;
         full = false;
+    }
+
+    public void DeleteItem()
+    {
+        RemoveItem();
         UpdateItemIcon();
         UIManager.instance.itemInfoWindow.SetActive(false);
     }

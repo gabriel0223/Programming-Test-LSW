@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoneyPumpkin : MonoBehaviour
 {
-    [SerializeField] private float moneyAmountHidden;
+    [SerializeField] private int moneyAmount;
     [HideInInspector] public bool wasTheMoneyTaken;
     
     // Start is called before the first frame update
@@ -23,7 +23,7 @@ public class MoneyPumpkin : MonoBehaviour
     {
         if (wasTheMoneyTaken) return;
         
-        Debug.Log("I GAVE PLAYER " + moneyAmountHidden + "MONEYS");
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMoney>().UpdateCoins(moneyAmount);
         wasTheMoneyTaken = true;
     }
 }

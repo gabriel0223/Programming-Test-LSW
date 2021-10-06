@@ -31,6 +31,7 @@ public class PlayerMenu : MonoBehaviour
         if (UIManager.instance.interactingWithUI) return;
         
         UIManager.instance.interactingWithUI = true;
+        UIManager.instance.uiState = UIManager.UIStates.Equipping;
         gameObject.SetActive(true);
         AudioManager.instance.Play("Pop01");
         playerControlller.LockInput(true);
@@ -43,6 +44,7 @@ public class PlayerMenu : MonoBehaviour
         AudioManager.instance.Play("ClickBack");
         playerControlller.LockInput(false);
         UIManager.instance.interactingWithUI = false;
+        UIManager.instance.uiState = UIManager.UIStates.Idle;
         
         if (UIManager.instance.itemInfoWindow.activeSelf)
             UIManager.instance.itemInfoWindow.SetActive(false);

@@ -46,7 +46,7 @@ public class InventoryController : MonoBehaviour
         if (UIManager.instance.uiState == UIManager.UIStates.Shopping)
         {
             UIManager.instance.shopController.SellItem(slot.item);
-            slot.RemoveItem();
+            slot.DeleteItem();
             return;
         }
         

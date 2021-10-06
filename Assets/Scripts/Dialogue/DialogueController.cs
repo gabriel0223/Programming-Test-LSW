@@ -81,6 +81,7 @@ public class DialogueController : MonoBehaviour
         
         player.LockInput(false);
         UIManager.instance.interactingWithUI = false;
+        UIManager.instance.uiState = UIManager.UIStates.Idle;
     }
 
     IEnumerator Type()
@@ -95,19 +96,18 @@ public class DialogueController : MonoBehaviour
 
             if (char.IsLetterOrDigit(letter))
             {
-                if (count >= lettersBetweenVoice) //if enough letters were printed, play voice sound
+                if (count % lettersBetweenVoice == 0) //if enough letters were printed, play voice sound
                 {
                     var speaker = dialogue.sentences[index].speaker;
                     string speakerVoice = speaker == null || speaker.voiceAudio.Equals("") ? "DefaultVoice" : speaker.voiceAudio;
 
                     AudioManager.instance.Play(speakerVoice);
-                    count = 0;
                 }
             }
             else
             {
-                if (letter == sentences[index][sentences[index].Length - 1]) //if it's the last letter, no need to make a pause
-                    break;
+                if (count == sentences[index][sentences[index].Length - 1]) //if it's the last letter, no need to make a pause
+                    continue;
                 
                 //PAUSE TYPING
                 switch (letter)
@@ -165,7 +165,6 @@ public class DialogueController : MonoBehaviour
             //set names, portraits and voices
             speakerName.SetText(dialogue.sentences[index].speaker.name);
             StartCoroutine(TakePortraitPhoto());
-            portrait.texture = dialogue.sentences[index].speaker.portrait;
         }
     }
 
@@ -186,7 +185,7 @@ public class DialogueController : MonoBehaviour
         var portraitCams = FindObjectsOfType<Camera>(true).Where(cam => cam.gameObject.CompareTag("PortraitCamera"));
 
         var speakerPortraitCam =
-            portraitCams.First(cam => cam.targetTexture.Equals(dialogue.sentences[index].speaker.portrait)).gameObject;
+            portraitCams.First(cam => cam.transform.parent.name.Contains(dialogue.sentences[index].speaker.name)).gameObject;
         
         speakerPortraitCam.SetActive(true);
 

@@ -7,7 +7,7 @@ using UnityEngine;
 public class SO_Speaker : ScriptableObject
 {
     public String name;
-    public Texture portrait;
+    //public Texture portrait;
     public string voiceAudio;
     
     // Start is called before the first frame update

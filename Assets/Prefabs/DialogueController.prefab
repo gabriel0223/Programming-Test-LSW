@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: b80d6d83e8ee30d4ebd9cb747cdb4aa2, type: 2}
+  m_Texture: {fileID: 8400000, guid: 96828ce14236082439e7f76032ee853d, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -660,6 +660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 0}
   npcInteracting: {fileID: 0}
+  objectInteracting: {fileID: 0}
   portrait: {fileID: 702827450}
   textDisplay: {fileID: 8742360949529771785}
   speakerName: {fileID: 8742360949370392888}
